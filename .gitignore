@@ -1,0 +1,4 @@
+*.txt
+build/
+*.o
+*.exe
