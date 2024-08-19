@@ -2,8 +2,8 @@
 
 I'm incredibly bored, so I'll try to implement the following data structures in C:
 
-0. [ ] Stack
-1. [ ] Queue
+0. [x] Stack
+1. [x] Queue
 2. [ ] Heap (Priority queue)
 3. [ ] HashMap / HashSet
 4. [ ] Trie
@@ -19,6 +19,4 @@ structure
 |__ tests/
     |__ test_structure.c
 |__ Makefile
-```
-```
 ```
