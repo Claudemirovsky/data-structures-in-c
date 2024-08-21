@@ -28,7 +28,7 @@ BUILD_PATHS = $(PATHB) $(PATHD) $(PATHO) $(PATHR)
 
 SRCT = $(wildcard $(PATHT)*.c)
 
-DBGCFLAGS=-fsanitize=address -fno-omit-frame-pointer -g -Wall -O1 -march=znver2 -mtune=znver2 -pipe
+DBGCFLAGS=-fsanitize=address -fno-omit-frame-pointer -g -Wall -O1 -pipe
 COMPILE=$(CC) -c
 LINK=$(CC) -fsanitize=address
 DEPEND=$(CC) -MM -MG -MF
