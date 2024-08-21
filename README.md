@@ -4,15 +4,17 @@ I'm incredibly bored, so I'll try to implement the following data structures in 
 
 0. [x] Stack
 1. [x] Queue
-2. [ ] Heap (Priority queue)
-3. [ ] HashMap / HashSet
-4. [ ] Trie
-5. [ ] Segment Tree
-6. [ ] Lazy Segment Tree
-7. [ ] (maybe never) Red-Black tree
+2. [ ] Vector
+3. [ ] Heap (Priority queue)
+4. [ ] HashMap / HashSet
+5. [ ] Trie
+6. [ ] Segment Tree
+7. [ ] Lazy Segment Tree
+8. [ ] (maybe never) Red-Black tree
 
 The structure of each directory is supposed to look like this:
-```
+
+```bash
 structure 
 |__ src/
     |__ structure.h
