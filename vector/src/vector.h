@@ -18,6 +18,28 @@ static vector_t *vector_create() {
     return vector;
 }
 
+static int vector_reserve(vector_t *vector, int size) {
+    if (vector == NULL)
+        return -EFAULT;
+    if (size <= 0 || size < vector->size)
+        return -EINVAL;
+    if (size <= vector->capacity)
+        return 0;
+
+    int *ptr = NULL;
+    if (vector->array == NULL) {
+        ptr = (int *)__builtin_malloc(sizeof(int) * size);
+    } else {
+        ptr = (int *)__builtin_realloc(vector->array, sizeof(int) * size);
+    }
+    if (ptr == NULL)
+        return -ENOMEM;
+    vector->array = ptr;
+    vector->capacity = size;
+    ptr = NULL;
+    return 0;
+}
+
 static void vector_free(vector_t *vector) {
     if (vector == NULL)
         return;

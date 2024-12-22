@@ -4,7 +4,7 @@ I'm incredibly bored, so I'll try to implement the following data structures in 
 
 0. [x] Stack
 1. [x] Queue
-2. [ ] Vector
+2. [x] Vector
 3. [ ] Heap (Priority queue)
 4. [ ] HashMap / HashSet
 5. [ ] Trie

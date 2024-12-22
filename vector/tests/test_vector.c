@@ -60,6 +60,20 @@ void test_vector_get() {
 
     TEST_ASSERT_EQUAL(32, vector->capacity);
 }
+
+void test_vector_reserve() {
+    TEST_ASSERT_EQUAL(-EFAULT, vector_reserve(NULL, 10));
+    TEST_ASSERT_EQUAL(-EINVAL, vector_reserve(vector, -10));
+    TEST_ASSERT_EQUAL(0, vector_reserve(vector, 10));
+    for (int i = 0; i < 16; ++i)
+        vector_push(vector, i);
+    TEST_ASSERT_EQUAL(20, vector->capacity);
+    TEST_ASSERT_EQUAL(16, vector->size);
+    TEST_ASSERT_EQUAL(15, vector_back(vector, NULL));
+    vector_reserve(vector, 2);
+    TEST_ASSERT_EQUAL(20, vector->capacity);
+}
+
 int main(void) {
     UNITY_BEGIN();
     RUN_TEST(test_vector_push);
@@ -67,6 +81,7 @@ int main(void) {
     RUN_TEST(test_vector_pop);
     RUN_TEST(test_vector_order);
     RUN_TEST(test_vector_get);
+    RUN_TEST(test_vector_reserve);
 
     UNITY_END();
 
