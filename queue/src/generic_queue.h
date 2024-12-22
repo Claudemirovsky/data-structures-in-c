@@ -58,12 +58,12 @@ static generic_queue_t *generic_queue_create(size_t elem_size) {
 
 static int generic_queue_push(generic_queue_t *queue, const void *val) {
     if (queue == NULL)
-        return EFAULT;
+        return -EFAULT;
     if (val == NULL)
-        return EINVAL;
+        return -EINVAL;
     _generic_queue_node *x = _generic_queue_node_create(val, queue->elem_size);
     if (x == NULL)
-        return ENOMEM;
+        return -ENOMEM;
     if (queue->tail != NULL)
         queue->tail->next = x;
     queue->tail = x;
@@ -75,15 +75,15 @@ static int generic_queue_push(generic_queue_t *queue, const void *val) {
 
 static int generic_queue_empty(const generic_queue_t *queue) {
     if (queue == NULL)
-        return EFAULT;
+        return -EFAULT;
     return queue->size == 0 || queue->head == NULL || queue->tail == NULL;
 }
 
 static int generic_queue_pop(generic_queue_t *queue) {
     if (queue == NULL)
-        return EFAULT;
+        return -EFAULT;
     if (generic_queue_empty(queue))
-        return EINVAL;
+        return -EINVAL;
 
     _generic_queue_node *node = queue->head;
     queue->head = node->next;
@@ -97,12 +97,12 @@ static int generic_queue_pop(generic_queue_t *queue) {
 static void *generic_queue_top(const generic_queue_t *queue, int *err) {
     if (queue == NULL) {
         if (err != NULL)
-            *err = EFAULT;
+            *err = -EFAULT;
         return NULL;
     }
     if (generic_queue_empty(queue)) {
         if (err != NULL)
-            *err = EINVAL;
+            *err = -EINVAL;
         return NULL;
     }
     if (err != NULL)

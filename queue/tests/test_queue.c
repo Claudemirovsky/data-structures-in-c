@@ -11,30 +11,30 @@ void tearDown() { queue_free(queue); }
 
 void test_queue_push() {
     int err = queue_push(queue, 1 << 20);
-    TEST_ASSERT_EQUAL_INT(0, err);
-    TEST_ASSERT_EQUAL_INT(1, queue->size);
-    TEST_ASSERT_EQUAL_INT(1 << 20, queue_top(queue, &err));
-    TEST_ASSERT_EQUAL_INT(0, err);
+    TEST_ASSERT_EQUAL(0, err);
+    TEST_ASSERT_EQUAL(1, queue->size);
+    TEST_ASSERT_EQUAL(1 << 20, queue_top(queue, &err));
+    TEST_ASSERT_EQUAL(0, err);
     err = queue_push(NULL, 2);
-    TEST_ASSERT_EQUAL_INT(EFAULT, err);
+    TEST_ASSERT_EQUAL(-EFAULT, err);
 }
 
 void test_queue_top() {
     int err;
     queue_top(queue, &err);
-    TEST_ASSERT_EQUAL_INT(EINVAL, err);
+    TEST_ASSERT_EQUAL(-EINVAL, err);
     queue_top(NULL, &err);
-    TEST_ASSERT_EQUAL_INT(EFAULT, err);
+    TEST_ASSERT_EQUAL(-EFAULT, err);
     queue_push(queue, 1 << 12);
     queue_push(queue, 1 << 15);
-    TEST_ASSERT_EQUAL_INT(1 << 12, queue_top(queue, NULL));
+    TEST_ASSERT_EQUAL(1 << 12, queue_top(queue, NULL));
     queue_pop(queue);
-    TEST_ASSERT_EQUAL_INT(1 << 15, queue_top(queue, NULL));
+    TEST_ASSERT_EQUAL(1 << 15, queue_top(queue, NULL));
 }
 
 void test_queue_pop() {
-    TEST_ASSERT_EQUAL(EFAULT, queue_pop(NULL));
-    TEST_ASSERT_EQUAL(EINVAL, queue_pop(queue));
+    TEST_ASSERT_EQUAL(-EFAULT, queue_pop(NULL));
+    TEST_ASSERT_EQUAL(-EINVAL, queue_pop(queue));
     queue_push(queue, 500);
     queue_push(queue, 1200);
     TEST_ASSERT_EQUAL(0, queue_pop(queue));

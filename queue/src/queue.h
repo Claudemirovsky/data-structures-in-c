@@ -34,10 +34,10 @@ static queue_t *queue_create() {
 
 static int queue_push(queue_t *queue, int val) {
     if (queue == NULL)
-        return EFAULT;
+        return -EFAULT;
     _queue_node *x = _queue_node_create(val);
     if (x == NULL)
-        return ENOMEM;
+        return -ENOMEM;
     if (queue->tail != NULL)
         queue->tail->next = x;
     queue->tail = x;
@@ -49,15 +49,15 @@ static int queue_push(queue_t *queue, int val) {
 
 static int queue_empty(const queue_t *queue) {
     if (queue == NULL)
-        return EFAULT;
+        return -EFAULT;
     return queue->size == 0 || queue->head == NULL || queue->tail == NULL;
 }
 
 static int queue_pop(queue_t *queue) {
     if (queue == NULL)
-        return EFAULT;
+        return -EFAULT;
     if (queue_empty(queue))
-        return EINVAL;
+        return -EINVAL;
 
     _queue_node *node = queue->head;
     queue->head = node->next;
@@ -71,11 +71,11 @@ static int queue_pop(queue_t *queue) {
 
 static int queue_top(const queue_t *queue, int *err) {
     if (queue == NULL) {
-        *err = EFAULT;
+        *err = -EFAULT;
         return -1;
     }
     if (queue_empty(queue)) {
-        *err = EINVAL;
+        *err = -EINVAL;
         return -1;
     }
     return queue->head->val;

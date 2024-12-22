@@ -33,10 +33,10 @@ static stack_t *stack_create() {
 
 static int stack_push(stack_t *obj, int val) {
     if (obj == NULL)
-        return EFAULT;
+        return -EFAULT;
     _stack_node *node = stack_node_create(obj->top_node, val);
     if (node == NULL)
-        return ENOMEM;
+        return -ENOMEM;
     obj->top_node = node;
     obj->size++;
     return 0;
@@ -44,15 +44,15 @@ static int stack_push(stack_t *obj, int val) {
 
 static int stack_empty(const stack_t *obj) {
     if (obj == NULL)
-        return EFAULT;
+        return -EFAULT;
     return obj->size == 0 || obj->top_node == NULL;
 }
 
 static int stack_pop(stack_t *obj) {
     if (obj == NULL)
-        return EFAULT;
+        return -EFAULT;
     if (stack_empty(obj))
-        return EINVAL;
+        return -EINVAL;
 
     _stack_node *top = obj->top_node;
     obj->top_node = top->prev;
@@ -65,12 +65,12 @@ static int stack_pop(stack_t *obj) {
 static int stack_top(const stack_t *obj, int *err) {
     if (obj == NULL) {
         if (err != NULL)
-            *err = EFAULT;
+            *err = -EFAULT;
         return -1;
     }
     if (stack_empty(obj)) {
         if (err != NULL)
-            *err = EINVAL;
+            *err = -EINVAL;
         return -1;
     }
     if (err != NULL)

@@ -22,8 +22,8 @@ test(push, int) {
     TEST_ASSERT_EQUAL(1, queue->size);
     TEST_ASSERT_EQUAL(num, *(int *)generic_queue_top(queue, &err));
     TEST_ASSERT_EQUAL(0, err);
-    TEST_ASSERT_EQUAL(EFAULT, generic_queue_push(NULL, &num));
-    TEST_ASSERT_EQUAL(EINVAL, generic_queue_push(queue, NULL));
+    TEST_ASSERT_EQUAL(-EFAULT, generic_queue_push(NULL, &num));
+    TEST_ASSERT_EQUAL(-EINVAL, generic_queue_push(queue, NULL));
 }
 
 test(push, str) {
@@ -37,9 +37,9 @@ test(push, str) {
 test(top, int) {
     int err;
     generic_queue_top(NULL, &err);
-    TEST_ASSERT_EQUAL(EFAULT, err);
+    TEST_ASSERT_EQUAL(-EFAULT, err);
     generic_queue_top(queue, &err);
-    TEST_ASSERT_EQUAL(EINVAL, err);
+    TEST_ASSERT_EQUAL(-EINVAL, err);
     int num = 30;
     generic_queue_push(queue, &num);
     num = 50;
@@ -62,8 +62,8 @@ test(top, str) {
 }
 
 test(pop, int) {
-    TEST_ASSERT_EQUAL(EFAULT, generic_queue_pop(NULL));
-    TEST_ASSERT_EQUAL(EINVAL, generic_queue_pop(queue));
+    TEST_ASSERT_EQUAL(-EFAULT, generic_queue_pop(NULL));
+    TEST_ASSERT_EQUAL(-EINVAL, generic_queue_pop(queue));
     int num = 30;
     generic_queue_push(queue, &num);
     num = 50;

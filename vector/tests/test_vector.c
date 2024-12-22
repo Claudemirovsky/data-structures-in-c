@@ -11,27 +11,27 @@ void tearDown() { vector_free(vector); }
 
 void test_vector_push() {
     int err = vector_push(vector, 1 << 20);
-    TEST_ASSERT_EQUAL_INT(0, err);
-    TEST_ASSERT_EQUAL_INT(1, vector->size);
-    TEST_ASSERT_EQUAL_INT(1 << 20, vector_back(vector, &err));
-    TEST_ASSERT_EQUAL_INT(0, err);
+    TEST_ASSERT_EQUAL(0, err);
+    TEST_ASSERT_EQUAL(1, vector->size);
+    TEST_ASSERT_EQUAL(1 << 20, vector_back(vector, &err));
+    TEST_ASSERT_EQUAL(0, err);
     err = vector_push(NULL, 2);
-    TEST_ASSERT_EQUAL_INT(EFAULT, err);
+    TEST_ASSERT_EQUAL(-EFAULT, err);
 }
 
 void test_vector_back() {
     int err;
     vector_back(vector, &err);
-    TEST_ASSERT_EQUAL_INT(EINVAL, err);
+    TEST_ASSERT_EQUAL(-EINVAL, err);
     vector_back(NULL, &err);
-    TEST_ASSERT_EQUAL_INT(EFAULT, err);
+    TEST_ASSERT_EQUAL(-EFAULT, err);
     vector_push(vector, 1 << 12);
-    TEST_ASSERT_EQUAL_INT(1 << 12, vector_back(vector, NULL));
+    TEST_ASSERT_EQUAL(1 << 12, vector_back(vector, NULL));
 }
 
 void test_vector_pop() {
-    TEST_ASSERT_EQUAL(EFAULT, vector_pop(NULL));
-    TEST_ASSERT_EQUAL(EINVAL, vector_pop(vector));
+    TEST_ASSERT_EQUAL(-EFAULT, vector_pop(NULL));
+    TEST_ASSERT_EQUAL(-EINVAL, vector_pop(vector));
     vector_push(vector, 500);
     vector_push(vector, 1200);
     TEST_ASSERT_EQUAL(0, vector_pop(vector));
@@ -48,7 +48,7 @@ void test_vector_order() {
         vector_pop(vector);
     }
 
-    TEST_ASSERT_EQUAL_INT(512, vector->capacity);
+    TEST_ASSERT_EQUAL(512, vector->capacity);
 }
 
 void test_vector_get() {
@@ -58,7 +58,7 @@ void test_vector_get() {
     for (int i = 0; i <= 30; ++i)
         TEST_ASSERT_EQUAL((i << 1) + 1, vector_get(vector, i, NULL));
 
-    TEST_ASSERT_EQUAL_INT(32, vector->capacity);
+    TEST_ASSERT_EQUAL(32, vector->capacity);
 }
 int main(void) {
     UNITY_BEGIN();

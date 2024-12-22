@@ -21,8 +21,8 @@ test(push, int) {
     TEST_ASSERT_EQUAL(1, stack->size);
     TEST_ASSERT_EQUAL(num, *(int *)generic_stack_top(stack, &err));
     TEST_ASSERT_EQUAL(0, err);
-    TEST_ASSERT_EQUAL(EFAULT, generic_stack_push(NULL, &num));
-    TEST_ASSERT_EQUAL(EINVAL, generic_stack_push(stack, NULL));
+    TEST_ASSERT_EQUAL(-EFAULT, generic_stack_push(NULL, &num));
+    TEST_ASSERT_EQUAL(-EINVAL, generic_stack_push(stack, NULL));
 }
 
 test(push, str) {
@@ -36,9 +36,9 @@ test(push, str) {
 test(top, int) {
     int err;
     generic_stack_top(NULL, &err);
-    TEST_ASSERT_EQUAL(EFAULT, err);
+    TEST_ASSERT_EQUAL(-EFAULT, err);
     generic_stack_top(stack, &err);
-    TEST_ASSERT_EQUAL(EINVAL, err);
+    TEST_ASSERT_EQUAL(-EINVAL, err);
     int num = 30;
     generic_stack_push(stack, &num);
     num = 50;
@@ -61,8 +61,8 @@ test(top, str) {
 }
 
 test(pop, int) {
-    TEST_ASSERT_EQUAL(EFAULT, generic_stack_pop(NULL));
-    TEST_ASSERT_EQUAL(EINVAL, generic_stack_pop(stack));
+    TEST_ASSERT_EQUAL(-EFAULT, generic_stack_pop(NULL));
+    TEST_ASSERT_EQUAL(-EINVAL, generic_stack_pop(stack));
     int num = 30;
     generic_stack_push(stack, &num);
     num = 50;

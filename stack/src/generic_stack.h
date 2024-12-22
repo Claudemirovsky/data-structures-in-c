@@ -58,13 +58,13 @@ static generic_stack_t *generic_stack_create(size_t elem_size) {
 
 static int generic_stack_push(generic_stack_t *obj, const void *val) {
     if (obj == NULL)
-        return EFAULT;
+        return -EFAULT;
     if (val == NULL)
-        return EINVAL;
+        return -EINVAL;
     _generic_stack_node *node =
         _generic_stack_node_create(obj->top_node, val, obj->elem_size);
     if (node == NULL)
-        return ENOMEM;
+        return -ENOMEM;
     obj->top_node = node;
     obj->size++;
     return 0;
@@ -72,15 +72,15 @@ static int generic_stack_push(generic_stack_t *obj, const void *val) {
 
 static int generic_stack_empty(const generic_stack_t *obj) {
     if (obj == NULL)
-        return EFAULT;
+        return -EFAULT;
     return obj->size == 0 || obj->top_node == NULL;
 }
 
 static int generic_stack_pop(generic_stack_t *obj) {
     if (obj == NULL)
-        return EFAULT;
+        return -EFAULT;
     if (generic_stack_empty(obj))
-        return EINVAL;
+        return -EINVAL;
 
     _generic_stack_node *top = obj->top_node;
     obj->top_node = top->prev;
@@ -92,12 +92,12 @@ static int generic_stack_pop(generic_stack_t *obj) {
 static void *generic_stack_top(const generic_stack_t *obj, int *err) {
     if (obj == NULL) {
         if (err != NULL)
-            *err = EFAULT;
+            *err = -EFAULT;
         return NULL;
     }
     if (generic_stack_empty(obj)) {
         if (err != NULL)
-            *err = EINVAL;
+            *err = -EINVAL;
         return NULL;
     }
     if (err != NULL)

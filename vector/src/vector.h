@@ -31,18 +31,18 @@ static void vector_free(vector_t *vector) {
 
 static int vector_push(vector_t *vector, int val) {
     if (vector == NULL)
-        return EFAULT;
+        return -EFAULT;
     if (vector->capacity < (vector->size + 1)) {
         if (vector->capacity == 0 || vector->array == NULL) {
             vector->array = (int *)__builtin_malloc(sizeof(int));
             if (vector->array == NULL)
-                return ENOMEM;
+                return -ENOMEM;
             vector->capacity = 1;
         } else {
             int *ptr = (int *)__builtin_realloc(
                 vector->array, sizeof(int) * (vector->capacity << 1));
             if (ptr == NULL)
-                return ENOMEM;
+                return -ENOMEM;
             vector->capacity <<= 1;
             vector->array = ptr;
         }
@@ -54,19 +54,19 @@ static int vector_push(vector_t *vector, int val) {
 
 static int vector_empty(const vector_t *vector) {
     if (vector == NULL)
-        return EFAULT;
+        return -EFAULT;
     return vector->size == 0 || vector->array == NULL;
 }
 
 static int vector_back(const vector_t *vector, int *err) {
     if (vector == NULL) {
         if (err != NULL)
-            *err = EFAULT;
+            *err = -EFAULT;
         return -1;
     }
     if (vector_empty(vector)) {
         if (err != NULL)
-            *err = EINVAL;
+            *err = -EINVAL;
         return -1;
     }
 
@@ -77,9 +77,9 @@ static int vector_back(const vector_t *vector, int *err) {
 
 static int vector_pop(vector_t *vector) {
     if (vector == NULL)
-        return EFAULT;
+        return -EFAULT;
     if (vector_empty(vector))
-        return EINVAL;
+        return -EINVAL;
     vector->size--;
     return 0;
 }
@@ -87,7 +87,7 @@ static int vector_pop(vector_t *vector) {
 static int vector_get(const vector_t *vector, int index, int *err) {
     if (index < 0 || index >= vector->size) {
         if (err != NULL)
-            *err = EINVAL;
+            *err = -EINVAL;
         return 0;
     }
 
